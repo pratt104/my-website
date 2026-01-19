@@ -1,31 +1,30 @@
-import ThemeToggle from "@/components/ThemeToggle";
+"use client";
 
-type TopbarProps = {
-  onMenuClick: () => void;
-};
+import { useRouter } from "next/navigation";
+import ThemeToggle from "./ThemeToggle";
 
-export default function Topbar({ onMenuClick }: TopbarProps) {
+export default function Topbar() {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await fetch("/api/logout", { method: "POST" });
+    router.push("/login");
+  };
+
   return (
-    <header className="w-full bg-white dark:bg-gray-900 dark:text-white border-b px-6 py-4 flex justify-between items-center">
-      <div className="flex items-center gap-3">
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden px-3 py-2 bg-black text-white rounded-lg text-sm"
-          onClick={onMenuClick}
-        >
-          ☰
-        </button>
+    <div className="flex items-center justify-between border-b border-gray-300 dark:border-gray-700 px-6 py-4 bg-white dark:bg-gray-900">
+      <h2 className="text-lg font-bold text-black dark:text-white">Overview</h2>
 
-        <h1 className="text-lg font-bold">Overview</h1>
-      </div>
-
-      <div className="flex items-center gap-3">
+      <div className="flex gap-3">
         <ThemeToggle />
 
-        <button className="px-4 py-2 bg-black text-white rounded-lg text-sm dark:bg-white dark:text-black">
+        <button
+          onClick={handleLogout}
+          className="px-4 py-2 rounded-lg bg-black text-white font-semibold hover:opacity-90"
+        >
           Logout
         </button>
       </div>
-    </header>
+    </div>
   );
 }
