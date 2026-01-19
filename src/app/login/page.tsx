@@ -7,8 +7,11 @@ export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
 
-  const login = () => {
-    document.cookie = `auth=true; path=/;`;
+  const login = async () => {
+    await fetch("/api/login", {
+      method: "POST",
+    });
+
     router.push("/dashboard");
   };
 
